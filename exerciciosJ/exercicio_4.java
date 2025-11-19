@@ -10,6 +10,8 @@ public class exercicio_4 {
         double a = 6.8, b = 8.05, c = 2.5;
         double media = (a + b + c) / 3;
 
+        System.out.println("A Média é = " + media);
+
         if(media >= 6){
             System.out.println("Passou!");
         }else{
