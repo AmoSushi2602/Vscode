@@ -2,8 +2,6 @@ package calculo_lucros;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -12,31 +10,105 @@ class Operacao{
     double deposito;
     double saque;
     double bau;
-    int filha;
     
-    public Operacao(int filha, double deposito, double saque, double bau){
-        this.filha = filha; 
+    public Operacao(double deposito, double saque, double bau){
+       
         this.deposito = deposito;
         this.saque = saque;
         this.bau = bau;
           
-    }//lucro real
-    public double lucro(){
-        return saque + bau - deposito;
-    }
-    //Bruto
+    }//Bruto
     public double bruto(){
         return saque + bau;
-    }    
+    
+    }//Lucro   
+    public double lucro(){
+        return saque + bau - deposito;
 }
 
 public class Main extends JFrame{
-    private JTextField txtDeposito, txtSaque, txtBau, txtFilha;
-    private JLabel lblLucro;
+
+    private JTabbedPane tabs;
     private ArrayList<Operacao> lista = new ArrayList<>();
 
+    //lbl 1 aba
+    private JLabel lblTotalBruto;
+    private JLabel lblTotalLucro;
+
     public Main(){
-        super("Caluladora de lucros");
+        super("Caluladora de lucros por filha");
+
+        tabs = new JTabbedPane();
+        
+        // Aba mãe
+        criarAbaMae();
+
+        //filhas
+        JPanel painelCriacao = new JPanel(new GridLayout(5, 2, 10, 10));
+
+        JTextField txtDeposito = new JTextField();
+        JTextField txtSaque = new JTextField();
+        JTextField txtBau = new JTextField();
+        JTextField txtFilha = new JTextField();
+
+        //criacao
+
+        painelCriacao.add(new JLabel("Filha número:"));
+        painelCriacao.add(txtFilha);
+
+        
+        painelCriacao.add(new JLabel("Depósito:"));
+        painelCriacao.add(txtDeposito);
+
+        painelCriacao.add(new JLabel("Saque:"));
+        painelCriacao.add(txtSaque);
+        
+        painelCriacao.add(new JLabel("Baú:"));
+        painelCriacao.add(txtBau);
+
+        //botao
+        JButton btnAdd = new JButton("Adicionar Filha");
+        painelCriacao.add(btnAdd);
+
+        btnAdd.addActionListener(e -> {
+            try{
+                int filhaNum = Integer.parseInt(txtFilha.getText());
+                double dep = Double.parseDouble(txtDeposito.getText());
+                double saq = Double.parseDouble(txtSaque.getText());
+                double bau = Double.parseDouble(txtBau.getText());            }
+                
+                Operacao op = new Operacao(dep, saq, bau);
+                Operacoes.add(op);
+
+                criarAbaFilha(filhaNum, op);
+                atualizarTotais();
+
+                    
+                txtFilha.setText("");
+                txtDeposito.setText("");
+                txtSaque.setText("");
+                txtBau.setText("");
+
+                JOptionPane.showMessageDialog(this, "Filha adicionada!");
+            
+            }catch (Exception ex){
+                JOptionPane.showMessageDialog(this, "Valores invalidos!");
+            }
+        });
+
+        add(painelCriacao, BorderLayout.NORTH);
+        add(tabs, BorderLayout.CENTER);
+
+        //conf da janela
+        setSize(500, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    private void criarAbaMae(){
+        
+    }
 
         setLayout(new GridLayout(6,2,10,10));
         
