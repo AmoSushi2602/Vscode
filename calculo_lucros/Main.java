@@ -24,6 +24,7 @@ class Operacao{
     }//Lucro   
     public double lucro(){
         return saque + bau - deposito;
+    }
 }
 
 public class Main extends JFrame{
@@ -75,10 +76,10 @@ public class Main extends JFrame{
                 int filhaNum = Integer.parseInt(txtFilha.getText());
                 double dep = Double.parseDouble(txtDeposito.getText());
                 double saq = Double.parseDouble(txtSaque.getText());
-                double bau = Double.parseDouble(txtBau.getText());            }
+                double bau = Double.parseDouble(txtBau.getText());           
                 
                 Operacao op = new Operacao(dep, saq, bau);
-                Operacoes.add(op);
+                lista.add(op);
 
                 criarAbaFilha(filhaNum, op);
                 atualizarTotais();
@@ -105,90 +106,62 @@ public class Main extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-
+    //criar a mae
     private void criarAbaMae(){
+        JPanel mae = new JPanel(new GridLayout(2, 2, 10, 10));
+
+        lblTotalBruto = new JLabel("0");
+        lblTotalLucro = new JLabel("0");
+        
+        mae.add(new JLabel("TOTAL BRUTO:"));
+        mae.add(lblTotalBruto);
+
+        mae.add(new JLabel("TOTAL LUCRO:"));
+        mae.add(lblTotalLucro);
+        
+        tabs.add("Geral", mae);
+    }
+    //criar a filha
+    private void criarAbaFilha(int num, Operacao op){
+
+        JPanel painel = new JPanel(new GridLayout(5, 2, 10, 10));
+
+        painel.add(new JLabel("Depósito:"));
+        painel.add(new JLabel(String.valueOf(op.deposito)));
+
+        painel.add(new JLabel("Saque:"));
+        painel.add(new JLabel(String.valueOf(op.saque)));
+
+        painel.add(new JLabel("Baú:"));
+        painel.add(new JLabel(String.valueOf(op.bau)));
+
+        painel.add(new JLabel("Bruto:"));
+        painel.add(new JLabel(String.valueOf(op.bruto())));
+
+        painel.add(new JLabel("Lucro:"));
+        painel.add(new JLabel(String.valueOf(op.lucro())));
+
+        tabs.add("Filha " + num, painel);
+
+    }
+    // atualiza os totais
+    private void atualizarTotais(){
+
+        double totalBruto = 0;
+        double totalLucro = 0;
+
+        for (Operacao o : lista) {
+            totalBruto += o.bruto();
+            totalLucro += o.lucro();
+            
+        }
+        lblTotalBruto.setText(String.format("%.2f", totalBruto));
+        lblTotalLucro.setText(String.format("%.2f", totalLucro));
+        
         
     }
-
-        setLayout(new GridLayout(6,2,10,10));
         
-        //Campos
-        add(new JLabel("Filha:"));
-        txtFilha = new JTextField();
-        add(txtFilha);
-
-        add(new JLabel("Depósito:"));
-        txtDeposito = new JTextField();
-        add(txtDeposito);
-
-        add(new JLabel("Saque:"));
-        txtSaque = new JTextField();
-        add(txtSaque);
-
-        add(new JLabel("Bau:"));
-        txtBau = new JTextField();
-        add(txtBau);
-
-        //Botoes
-        JButton btnAdd = new JButton("Adicionar operação");
-        add(btnAdd);
-
-        JButton btnSomar = new JButton("Somar tudo");
-        add(btnSomar);
-
-        //resultado
-        add(new JLabel("Total:"));
-        lblLucro = new JLabel("0");
-        add(lblLucro);
-
-        //Açoes
-
-        btnAdd.addActionListener(e -> adicionarOperacoes());
-
-        btnSomar.addActionListener(e -> somarOperacoes());
-
-        // conf janela
-        setSize(400,300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+    public static void main(String[] args) {
+        new Main();
     }
-    private void adicionarOperacoes(){
-        try{
-            int filha = Integer.parseInt(txtFilha.getText());
-            double deposito = Double.parseDouble(txtDeposito.getText());
-            double saque = Double.parseDouble(txtSaque.getText());
-            double bau = Double.parseDouble(txtBau.getText());
-
-            lista.add(new Operacao(filha, deposito, saque, bau));
-
-            JOptionPane.showMessageDialog(this, "Operação adicionada!");
-
-
-            txtFilha.setText("");
-            txtDeposito.setText("");
-            txtSaque.setText("");
-            txtBau.setText("");
-    } catch (Exception e){
-    JOptionPane.showMessageDialog(this, "Digite valores válidos!");
-}
-}
-
-private void somarOperacoes(){
-    double totalLucro = 0;
-    double totalBruto = 0;
-    
-    for(Operacao o : lista){
-        totalLucro += o.lucro();
-        totalBruto += o.bruto();
-    }
-    lblLucro.setText(
-        "Lucro: " + String.format("%.2f", totalLucro) + 
-        "| Bruto: " + String.format("%.2f", totalBruto)
-    );
-    
-
-}
-public static void main(String[] args) {
-    new Main();
-}
 }
