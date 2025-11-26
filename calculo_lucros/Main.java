@@ -37,7 +37,7 @@ public class Main extends JFrame{
     private JLabel lblTotalLucro;
 
     public Main(){
-        super("Caluladora de lucros por filha");
+        super("Calculadora de lucros por filha");
 
         tabs = new JTabbedPane();
         
