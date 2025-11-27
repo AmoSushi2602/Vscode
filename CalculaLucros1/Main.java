@@ -5,27 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
-class Operacao{
 
-    double deposito;
-    double saque;
-    double bau;
-    
-    public Operacao(double deposito, double saque, double bau){
-       
-        this.deposito = deposito;
-        this.saque = saque;
-        this.bau = bau;
-          
-    }//Bruto
-    public double bruto(){
-        return saque + bau;
-    
-    }//Lucro   
-    public double lucro(){
-        return saque + bau - deposito;
-    }
-}
 
 public class Main extends JFrame{
 
@@ -74,9 +54,7 @@ public class Main extends JFrame{
         btnAdd.addActionListener(e -> {
             try{
                 int filhaNum = Integer.parseInt(txtFilha.getText());
-                double dep = Double.parseDouble(txtDeposito.getText());
-                double saq = Double.parseDouble(txtSaque.getText());
-                double bau = Double.parseDouble(txtBau.getText());           
+                          
                 
                 Operacao op = new Operacao(dep, saq, bau);
                 lista.add(op);
@@ -86,9 +64,7 @@ public class Main extends JFrame{
 
                     
                 txtFilha.setText("");
-                txtDeposito.setText("");
-                txtSaque.setText("");
-                txtBau.setText("");
+                
 
                 JOptionPane.showMessageDialog(this, "Filha adicionada!");
             
