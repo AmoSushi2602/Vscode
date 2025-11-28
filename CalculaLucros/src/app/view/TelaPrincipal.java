@@ -27,6 +27,14 @@ public class TelaPrincipal extends JFrame{
 
     public TelaPrincipal(){
         super("Calculadora de lucros");
+
+        //icone top
+        setIconImage(
+            Toolkit.getDefaultToolkit().getImage(
+                getClass().getResource("/app/view/icons/Logo.png")
+            )
+        );
+
         initComponents();
 
     }
