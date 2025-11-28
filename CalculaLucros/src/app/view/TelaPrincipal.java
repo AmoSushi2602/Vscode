@@ -1,6 +1,6 @@
-package CalculaLucros.src.app.view;
+package app.view;
 
-import CalculaLucros.src.app.controller.OperacaoController;
+import app.controller.OperacaoController;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -90,7 +90,7 @@ public class TelaPrincipal extends JFrame{
     private void atualizarTabela(){
         //Limpar tela
         tableModel.setRowCount(0);
-        for(CalculaLucros.src.app.model.Operacao op : controller.getTodas()){
+        for(app.model.Operacao op : controller.getTodas()){
             tableModel.addRow(new Object[]{
                 op.getDeposito(), op.getSaque(), op.getBau(), op.getBruto(), op.getLucro()
             });

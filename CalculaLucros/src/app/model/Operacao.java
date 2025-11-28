@@ -1,4 +1,4 @@
-package CalculaLucros.src.app.model;
+package app.model;
 
 public class Operacao {
 

@@ -1,6 +1,6 @@
-package CalculaLucros.src.app.controller;
+package app.controller;
 
-import CalculaLucros.src.app.model.Operacao;
+import app.model.Operacao;
 import java.util.ArrayList;
 import java.util.List;
 
