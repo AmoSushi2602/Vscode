@@ -11,10 +11,27 @@ public class OperacaoController {
         lista.add(new Operacao(dep, saq, bau));
     }
 
+    // usado pelo TableModel
     public List<Operacao> getTodas(){
-        return new ArrayList<>(lista);
+        return lista;
     }
-    
+
+    // === MÉTODOS QUE ESTAVAM FALTANDO ===
+
+    // Alias de getTodas(), caso a View chame getLista()
+    public List<Operacao> getLista() {
+        return lista;
+    }
+
+    // usado para remover linha da tabela
+    public void removerOperacao(int index) {
+        if (index >= 0 && index < lista.size()) {
+            lista.remove(index);
+        }
+    }
+
+    // ====================================
+
     public double getTotalLucro(){
         return lista.stream().mapToDouble(Operacao::getLucro).sum();
     }
@@ -26,5 +43,4 @@ public class OperacaoController {
     public void limpar(){
         lista.clear();
     }
-
 }

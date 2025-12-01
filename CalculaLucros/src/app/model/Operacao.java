@@ -27,6 +27,18 @@ public class Operacao {
         return getBruto() - deposito;
     }
 
+    public void setDeposito(double deposito) {
+        this.deposito = deposito;
+    }
+
+    public void setSaque(double saque) {
+        this.saque = saque;
+    }
+
+    public void setBau(double bau) {
+        this.bau = bau;
+    }
+
     @Override
 
     public String toString(){

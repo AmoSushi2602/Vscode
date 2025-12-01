@@ -1,83 +1,116 @@
 package app.view;
 
 import app.controller.OperacaoController;
+import app.model.Operacao;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.border.Border;
+import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.UIManager;
 
-
-public class TelaPrincipal extends JFrame{
+public class TelaPrincipal extends JFrame {
 
     private final OperacaoController controller = new OperacaoController();
-
-    //texts
 
     private final JTextField txtDep = new JTextField();
     private final JTextField txtSaq = new JTextField();
     private final JTextField txtBau = new JTextField();
-    private final JLabel lblTotal = new JLabel("Total lucro: 0.00");
 
-    private final DefaultTableModel tableModel = new DefaultTableModel(
-        new Object[]{"Depósito","Saque","Baú","Bruto","Lucro"},0
-    );
+    private final JButton btnAdicionar = new JButton("Adicionar");
+    private final JButton btnExcluir = new JButton("Excluir Selecionado");
 
-    public TelaPrincipal(){
-        super("Calculadora de lucros");
+    private OperacaoTableModel tableModel = new OperacaoTableModel(controller.getTodas());
+    private JTable tabela = new JTable(tableModel);
 
-        //icone top
-        setIconImage(
-            Toolkit.getDefaultToolkit().getImage(
-                getClass().getResource("/app/view/icons/Logo.png")
-            )
-        );
+    public TelaPrincipal() {
+        super("Calculadora de Lucros");
 
-        initComponents();
+        configurarTela();
+        configurarEventos();
 
-    }
-    private void initComponents(){
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(8,8));
-
-        //formulario
-        JPanel form = new JPanel(new GridLayout(4,2,5,5));
-        form.setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
-        form.add(new JLabel("Depósito: ")); form.add(txtDep);
-        form.add(new JLabel("Saque: ")); form.add(txtSaq);
-        form.add(new JLabel("Baú: ")); form.add(txtBau);
-
-        //botoes
-
-        JButton btnAdd = new JButton("Adicionar");
-        btnAdd.addActionListener(this::adicionar);
-        form.add(btnAdd);
-
-        JButton btnLimpar = new JButton("Limpar tudo");
-        btnLimpar.addActionListener(e -> {
-            controller.limpar();
-            atualizarTabela();
-        });
-        form.add(btnLimpar);
-
-        add(form, BorderLayout.NORTH);
-
-        //tabelas
-        JTable tabela = new JTable(tableModel);
-        add(new JScrollPane(tabela), BorderLayout.CENTER);
-
-        //rodape
-        JPanel footer = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        footer.add(lblTotal);
-        add(footer, BorderLayout.SOUTH);
-
-        //tamanho aba
-        setSize(560,360);
+        setSize(700, 450);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    private void adicionar(ActionEvent e){
+
+    private void configurarTela() {
+        JPanel painel = new JPanel(new GridBagLayout());
+        painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Linha 1
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        painel.add(new JLabel("Depósito:"), gbc);
+
+        gbc.gridx = 1;
+        txtDep.setPreferredSize(new Dimension(120, 25));
+        painel.add(txtDep, gbc);
+
+        gbc.gridx = 2;
+        painel.add(new JLabel("Saque:"), gbc);
+
+        gbc.gridx = 3;
+        painel.add(txtSaq, gbc);
+
+        gbc.gridx = 4;
+        painel.add(new JLabel("Baú:"), gbc);
+
+        gbc.gridx = 5;
+        painel.add(txtBau, gbc);
+
+        // Botão adicionar
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 6;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        painel.add(btnAdicionar, gbc);
+
+        // Tabela
+        gbc.gridy = 2;
+        gbc.gridwidth = 6;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+
+        JScrollPane scroll = new JScrollPane(tabela);
+        painel.add(scroll, gbc);
+
+        // Botão excluir
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weighty = 0;
+        painel.add(btnExcluir, gbc);
+
+        add(painel);
+
+        configurarTabela();
+    }
+
+    private void configurarEventos() {
+        btnAdicionar.addActionListener(this::adicionar);
+        btnExcluir.addActionListener(e -> excluirSelecionado());
+    }
+
+    private void configurarTabela() {
+        tabela.setRowHeight(25);
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        TableColumnModel col = tabela.getColumnModel();
+        col.getColumn(0).setPreferredWidth(100);
+        col.getColumn(1).setPreferredWidth(100);
+        col.getColumn(2).setPreferredWidth(100);
+        col.getColumn(3).setPreferredWidth(100);
+        col.getColumn(4).setPreferredWidth(100);
+    }
+
+    private void adicionar(ActionEvent e) {
         try {
             double dep = Double.parseDouble(txtDep.getText().trim());
             double saq = Double.parseDouble(txtSaq.getText().trim());
@@ -92,27 +125,31 @@ public class TelaPrincipal extends JFrame{
             txtDep.requestFocus();
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this,"Preencha números válidos.","Erro",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Preencha números válidos.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-    private void atualizarTabela(){
-        //Limpar tela
-        tableModel.setRowCount(0);
-        for(app.model.Operacao op : controller.getTodas()){
-            tableModel.addRow(new Object[]{
-                op.getDeposito(), op.getSaque(), op.getBau(), op.getBruto(), op.getLucro()
-            });
+
+    private void excluirSelecionado() {
+        int linha = tabela.getSelectedRow();
+        if (linha >= 0) {
+            controller.removerOperacao(linha);
+            atualizarTabela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione uma linha para excluir.");
         }
-        lblTotal.setText(String.format("Total lucro: %.2f", controller.getTotalLucro()));
     }
+
+    private void atualizarTabela() {
+        tableModel.fireTableDataChanged();
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->{
-            new TelaPrincipal().setVisible(true);
-        });
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception ex) {
+            System.err.println("Falha ao inicializar o FlatLaf.");
+        }
 
+        SwingUtilities.invokeLater(() -> new TelaPrincipal().setVisible(true));
     }
-
-
 }
-
-
