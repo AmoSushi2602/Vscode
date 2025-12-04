@@ -1,3 +1,4 @@
 ou/
 bin/
 *.class
+target/
