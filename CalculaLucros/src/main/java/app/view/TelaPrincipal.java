@@ -8,9 +8,9 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import com.formdev.flatlaf.FlatLightLaf;
-import javax.swing.UIManager;
 
 public class TelaPrincipal extends JFrame {
+
 
     private final OperacaoController controller = new OperacaoController();
 
@@ -26,6 +26,8 @@ public class TelaPrincipal extends JFrame {
 
     public TelaPrincipal() {
         super("Calculadora de Lucros");
+
+        setIconImage(new ImageIcon(getClass().getResource("/icons/logo.png")).getImage());
 
         configurarTela();
         configurarEventos();
