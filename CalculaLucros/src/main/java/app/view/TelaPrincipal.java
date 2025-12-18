@@ -61,25 +61,34 @@ public class TelaPrincipal extends JFrame {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        //tamanho dos campos de texto
+        Dimension campoPadrao = new Dimension(120, 25);
+
         // Linha 1
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.NONE;
         painel.add(new JLabel("Depósito:"), gbc);
 
         gbc.gridx = 1;
-        txtDep.setPreferredSize(new Dimension(120, 25));
+        txtDep.setPreferredSize(campoPadrao);
+        txtDep.setHorizontalAlignment(JTextField.RIGHT);
         painel.add(txtDep, gbc);
 
         gbc.gridx = 2;
         painel.add(new JLabel("Saque:"), gbc);
 
         gbc.gridx = 3;
+        txtSaq.setPreferredSize(campoPadrao);
+        txtSaq.setHorizontalAlignment(JTextField.RIGHT);
         painel.add(txtSaq, gbc);
 
         gbc.gridx = 4;
         painel.add(new JLabel("Baú:"), gbc);
 
         gbc.gridx = 5;
+        txtBau.setPreferredSize(campoPadrao);
+        txtBau.setHorizontalAlignment(JTextField.RIGHT);
         painel.add(txtBau, gbc);
 
         // Botão adicionar
