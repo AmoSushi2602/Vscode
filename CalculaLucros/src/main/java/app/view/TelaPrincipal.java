@@ -1,6 +1,5 @@
 package app.view;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -55,23 +54,18 @@ public class TelaPrincipal extends JFrame {
 
     private void configurarTela() {
         JPanel painel = new JPanel(new GridBagLayout());
-        painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        painel.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        //tamanho dos campos de texto
-        Dimension campoPadrao = new Dimension(120, 25);
-
+        gbc.insets = new Insets(6, 6, 6, 6);
+        gbc.anchor = GridBagConstraints.WEST;
+    //lINHAS
         // Linha 1
-        gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.NONE;
         painel.add(new JLabel("Depósito:"), gbc);
 
         gbc.gridx = 1;
-        txtDep.setPreferredSize(campoPadrao);
         txtDep.setHorizontalAlignment(JTextField.RIGHT);
         painel.add(txtDep, gbc);
 
@@ -79,7 +73,6 @@ public class TelaPrincipal extends JFrame {
         painel.add(new JLabel("Saque:"), gbc);
 
         gbc.gridx = 3;
-        txtSaq.setPreferredSize(campoPadrao);
         txtSaq.setHorizontalAlignment(JTextField.RIGHT);
         painel.add(txtSaq, gbc);
 
@@ -87,7 +80,6 @@ public class TelaPrincipal extends JFrame {
         painel.add(new JLabel("Baú:"), gbc);
 
         gbc.gridx = 5;
-        txtBau.setPreferredSize(campoPadrao);
         txtBau.setHorizontalAlignment(JTextField.RIGHT);
         painel.add(txtBau, gbc);
 
