@@ -1,8 +1,10 @@
 package app.view;
 
-import app.model.Operacao;
-import javax.swing.table.AbstractTableModel;
 import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+import app.model.Operacao;
 
 public class OperacaoTableModel extends AbstractTableModel {
     
@@ -26,6 +28,19 @@ public class OperacaoTableModel extends AbstractTableModel {
     }
 
     @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return switch (columnIndex) {
+            case 0, 1, 2, 3, 4 -> Double.class;
+            default -> Object.class;
+        };
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int col){
+        return col < 3; // editavel ate a coluna 3 que seria o bau
+    }
+
+    @Override
     public Object getValueAt(int row, int col){
         Operacao op = lista.get(row);
 
@@ -39,15 +54,11 @@ public class OperacaoTableModel extends AbstractTableModel {
         };
     }
 
-    @Override
-    public boolean isCellEditable(int row, int col){
-        return col < 3; // editavel ate a coluna 3 que seria o bau
-    }
     
     @Override
     public void setValueAt(Object value, int row, int col){
         try {
-            double v = Double.parseDouble(value.toString());
+            double v = Double.parseDouble(value.toString().replace(",", "."));
             Operacao op = lista.get(row);
 
             switch (col){
@@ -58,6 +69,11 @@ public class OperacaoTableModel extends AbstractTableModel {
 
             fireTableRowsUpdated(row, row);
 
-        } catch (Exception ignored) {}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    public Operacao getOperacao(int row){
+        return lista.get(row);
     }
 }
