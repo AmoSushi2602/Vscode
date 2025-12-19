@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.TableColumnModel;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -292,8 +293,8 @@ public class TelaPrincipal extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception ex) {
-            System.err.println("Falha ao inicializar o FlatLaf.");
+        } catch (UnsupportedLookAndFeelException e) {
+              System.err.println("Falha ao inicializar o FlatLaf.");
         }
 
         SwingUtilities.invokeLater(() -> new TelaPrincipal().setVisible(true));

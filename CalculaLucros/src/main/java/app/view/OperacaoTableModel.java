@@ -2,6 +2,7 @@ package app.view;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import app.model.Operacao;
@@ -69,8 +70,8 @@ public class OperacaoTableModel extends AbstractTableModel {
 
             fireTableRowsUpdated(row, row);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (NumberFormatException | NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao processar dados");
         }
     }
     public Operacao getOperacao(int row){
