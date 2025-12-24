@@ -1,3 +1,5 @@
+package app.util;
+
 public class GeradorLicenca {
 
     public static void main(String[] args){
