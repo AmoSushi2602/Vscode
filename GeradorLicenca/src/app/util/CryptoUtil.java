@@ -7,7 +7,7 @@ import javax.crypto.spec.SecretKeySpec;
 public final class CryptoUtil {
 
     private static final String ALGO = "AES";
-    private static final String CHAVE = "LUCROAPP2025KEY"; // 16 chars
+    private static final String CHAVE = "LICENCA_AES_2025"; // 16 chars
 
     private CryptoUtil() {}
 
@@ -17,7 +17,7 @@ public final class CryptoUtil {
             SecretKeySpec key = new SecretKeySpec(CHAVE.getBytes(), ALGO);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return Base64.getEncoder()
-                         .encodeToString(cipher.doFinal(texto.getBytes()));
+                         .encodeToString(cipher.doFinal(texto.getBytes("UTF-8")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
