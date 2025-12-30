@@ -7,7 +7,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public final class CryptoUtil{
     private static final String ALGO = "AES";
-    private static final String CHAVE = "LUCRO-APP-2025"; 
+    private static final String CHAVE = "LICENCA_AES_2025"; 
 
     private CryptoUtil() {}
 

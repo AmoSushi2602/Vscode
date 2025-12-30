@@ -40,8 +40,8 @@ public class App {
 
                 // NÃO existe licença
                 if (licenca == null) {
-                    mostrarHWID();
-                    System.exit(0);
+                    new app.view.TelaAtivacao().setVisible(true);
+                    return;
                 }
 
                 // valida HWID

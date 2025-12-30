@@ -5,9 +5,23 @@ import java.nio.file.Path;
 
 public class LicencaRepository {
 
-    private static final Path ARQUIVO =
+    private static final Path DIRETORIO =
         Path.of(System.getProperty("user.home"),
-                "CalculaLucros", "licenca.key");
+                "CalculaLucros");
+
+    private static final Path ARQUIVO =
+        DIRETORIO.resolve("license.key");
+
+    public void salvar(String licenca) {
+        try {
+            if(!Files.exists(DIRETORIO)) {
+                Files.createDirectories(DIRETORIO);
+            }
+            Files.writeString(ARQUIVO, licenca.trim());
+        } catch (Exception e) {
+            throw new LicencaException("Erro ao salvar a licença.");
+        }
+    }
 
     public String carregar() {
         try {
@@ -17,4 +31,8 @@ public class LicencaRepository {
             return null;
         }
     }
+
+    public boolean existe() {
+        return Files.exists(ARQUIVO);
+    }   
 }
